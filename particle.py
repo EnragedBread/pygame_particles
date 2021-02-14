@@ -1,12 +1,13 @@
 import random
 
 import pygame
+from pygame.math import Vector2
 
 class Particle():
     def __init__(self, placement):
-        self._placement = placement # [mx, my]
+        self._placement = Vector2(placement)
         self._radius = random.randint(4,6)
-        self._velocity = [random.randint(0, 7) - 3.5, random.randint(0, 7) - 3.5]
+        self._velocity = Vector2((random.randint(0, 7) - 3.5, random.randint(0, 7) - 3.5))
 
     def burned_out(self):
         return self._radius <= 0
@@ -15,15 +16,14 @@ class Particle():
         pygame.draw.circle(
             screen,
             pygame.Color('white'),
-            (int(self._placement[0]), int(self._placement[1])),
+            (int(self._placement.x), int(self._placement.y)),
             int(self._radius)
         )
 
     def update(self):
-        self._placement[0] += self._velocity[0]
-        self._placement[1] += self._velocity[1]
+        self._placement += self._velocity
 
-        self._velocity[1] += 0.1 #gravity
+        self._velocity.y += 0.1 #gravity
         self._radius -= 0.1
 
 class Particles():
